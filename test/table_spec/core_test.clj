@@ -5,10 +5,10 @@
             [clojure.spec :as s]
             [table-spec.fixture :refer [with-db]]))
 
-#_(def connection-uri "jdbc:postgresql://localhost:5433/postgres?user=postgres&password=secret")
-(def connection-uri "jdbc:postgresql:test")
+(def connection-uri "jdbc:postgresql://localhost:5433/postgres?user=postgres&password=secret")
+#_(def connection-uri "jdbc:postgresql:test")
 
-#_(use-fixtures :once (partial with-db connection-uri))
+(use-fixtures :once (partial with-db connection-uri))
 
 (defmacro with-state [state & body]
   `(do
