@@ -1,53 +1,14 @@
 (ns table-spec.core-test
   (:require [clojure.test :refer :all]
             [table-spec.core :as sut]
-            [clojure.java.shell :refer [sh]]
             [clojure.java.jdbc :as jdbc]
-            [clojure.string :as str]
-            [clojure.spec :as s]))
+            [clojure.spec :as s]
+            [table-spec.fixture :refer [with-db]]))
 
 #_(def connection-uri "jdbc:postgresql://localhost:5433/postgres?user=postgres&password=secret")
 (def connection-uri "jdbc:postgresql:test")
 
-(defn sh! [& args]
-  (let [{:keys [exit out]} (apply sh args)]
-    (when-not (zero? exit)
-      (throw (Exception. (str "'" (str/join " " args) "' returned " exit))))
-    (.trim out)))
-
-(defn db-available? [uri]
-  (try
-    (jdbc/with-db-connection [db {:connection-uri uri}])
-    true
-    (catch Throwable t
-      false)))
-
-(defn wait-for-db [uri]
-  (loop [count 0
-         available? false]
-    (if (and (not available?)
-             (< count 10))
-      (if-not (db-available? uri)
-        (do
-          (Thread/sleep 1000)
-          (recur (inc count) false))
-        (recur (inc count) true))
-      (when (>= count 10)
-        (throw (Exception. "Database not available"))))))
-
-(defn with-db [f]
-  (let [id (sh! "docker" "run"
-                "--name" "table-spec"
-                "-e" "POSTGRES_PASSWORD=secret"
-                "-d"
-                "-p" "5433:5432"
-                "postgres:9.6.2-alpine")]
-    (wait-for-db connection-uri)
-    (f)
-    (sh! "docker" "stop" id)
-    (sh! "docker" "rm" "table-spec")))
-
-#_(use-fixtures :once with-db)
+#_(use-fixtures :once (partial with-db connection-uri))
 
 (defmacro with-state [state & body]
   `(do
