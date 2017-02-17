@@ -4,11 +4,11 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
-                 [org.clojure/java.jdbc "0.7.0-alpha1"]
-                 [org.postgresql/postgresql "9.4.1212"]]
+                 [org.clojure/java.jdbc "0.7.0-alpha1"]]
   :pedantic? :abort
   :profiles {:dev {:source-paths ["dev"]
                    :repl-options {:init-ns user}
                    :dependencies [[org.clojure/tools.namespace "0.2.11"]
-                                  [org.clojure/test.check "0.9.0"] ]
+                                  [org.clojure/test.check "0.9.0"]
+                                  [org.postgresql/postgresql "9.4.1212"]]
                    :plugins [[com.jakemccrary/lein-test-refresh "0.18.1"]]}})
