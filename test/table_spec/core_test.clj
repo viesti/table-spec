@@ -53,13 +53,27 @@
 (deftest many-columns
   (with-state {:up ["create table foo (id int not null,
                                        ts timestamp,
-                                       name varchar(250))"]
+                                       name varchar(250),
+                                       bool boolean,
+                                       bit bool,
+                                       double double precision,
+                                       real real,
+                                       char char,
+                                       text text)"]
                :down ["drop table foo"]
                :connection-uri connection-uri}
     (let [column_size 250
           specs (assert-spec {:foo/id (s/spec int?)
                               :foo/ts (s/spec #(instance? java.sql.Timestamp %))
                               :foo/name (s/spec (s/and string?
+                                                       #(<= (.length %) column_size)))
+                              :foo/bool (s/spec boolean?)
+                              :foo/bit (s/spec boolean?)
+                              :foo/double (s/spec double?)
+                              :foo/real (s/spec double?)
+                              :foo/char (s/spec char?)
+                              ;; On Postgres, column_size is 2147483647
+                              :foo/text (s/spec (s/and string?
                                                        #(<= (.length %) column_size)))})]
       (is (s/valid? (:foo/name specs)
                     (String. (byte-array 250) "UTF-8")))

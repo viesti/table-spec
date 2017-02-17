@@ -7,10 +7,10 @@
 
 (defmulti data-type :data_type)
 
-(defmethod data-type Types/INTEGER [m]
+(defmethod data-type Types/INTEGER [_]
   (s/spec int?))
 
-(defmethod data-type Types/TIMESTAMP [m]
+(defmethod data-type Types/TIMESTAMP [_]
   (s/spec #(instance? java.sql.Timestamp %)
           :gen (fn []
                  (gen/fmap #(java.sql.Timestamp. ^Long %)
@@ -19,6 +19,24 @@
 (defmethod data-type Types/VARCHAR [{:keys [column_size]}]
   (s/spec (s/and string?
                  #(<= (.length %) column_size))))
+
+(defmethod data-type Types/BIT [_]
+  (s/spec boolean?))
+
+(defmethod data-type Types/BOOLEAN [_]
+  (s/spec boolean?))
+
+(defmethod data-type Types/DOUBLE [_]
+  (s/spec double?))
+
+(defmethod data-type Types/FLOAT [_]
+  (s/spec double?))
+
+(defmethod data-type Types/REAL [_]
+  (s/spec double?))
+
+(defmethod data-type Types/CHAR [_]
+  (s/spec char?))
 
 (defmethod data-type :default [m]
   (throw (Exception. (str "Undefined data type: " (:data_type m)))))
