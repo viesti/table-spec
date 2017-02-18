@@ -40,4 +40,4 @@
     (wait-for-db uri)
     (f)
     (sh! "docker" "stop" id)
-    (sh! "docker" "rm" "table-spec")))
+    (sh "docker" "rm" "table-spec")))
