@@ -38,6 +38,13 @@
 (defmethod data-type Types/CHAR [_]
   (s/spec char?))
 
+(defmethod data-type Types/NUMERIC [{:keys [decimal_digits]}]
+  (s/spec bigdec?
+          :gen (fn []
+                 (gen/fmap #(.setScale (BigDecimal/valueOf ^Double %)
+                                       decimal_digits java.math.RoundingMode/UP)
+                           (gen/double* {:infinite? false :NaN? false})))))
+
 (defmethod data-type :default [m]
   (throw (Exception. (str "Undefined data type: " (:data_type m)))))
 
