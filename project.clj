@@ -11,4 +11,6 @@
                    :dependencies [[org.clojure/tools.namespace "0.2.11"]
                                   [org.clojure/test.check "0.9.0"]
                                   [org.postgresql/postgresql "9.4.1212"]]
-                   :plugins [[com.jakemccrary/lein-test-refresh "0.18.1"]]}})
+                   :plugins [[com.jakemccrary/lein-test-refresh "0.18.1"]]}}
+  :deploy-repositories [["releases" {:url "https://clojars.org/repo/",
+                                     :creds :gpg}]])
