@@ -1,6 +1,6 @@
 # table-spec
 
-Specs from SQL database schema for data generation and validation.
+Specs ([clojure.spec](https://clojure.org/about/spec)) from SQL database schema for data generation and validation.
 
 ## Usage
 
