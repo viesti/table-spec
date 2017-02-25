@@ -11,6 +11,13 @@ CREATE TABLE
 ```
 
 ```clojure
+...
+:dependencies [[org.clojure/clojure "1.9.0-alpha14"]
+               [viesti/table-spec "0.1.0"]
+               [org.postgresql/postgresql "9.4.1212"]]
+...
+
+
 user> (require '[table-spec.core :as t])
 nil
 user> (require '[clojure.spec :as s])
