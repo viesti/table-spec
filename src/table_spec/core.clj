@@ -1,8 +1,8 @@
 (ns table-spec.core
   (:require [clojure.java.jdbc :as jdbc]
-            [clojure.spec :as s]
+            [clojure.spec.alpha :as s]
             [clojure.set :as set]
-            [clojure.spec.gen :as gen])
+            [clojure.spec.gen.alpha :as gen])
   (:import [java.sql Types]))
 
 (defmulti data-type :data_type)
@@ -39,7 +39,7 @@
   (s/spec char?))
 
 (defmethod data-type Types/NUMERIC [{:keys [decimal_digits]}]
-  (s/spec bigdec?
+  (s/spec decimal?
           :gen (fn []
                  (gen/fmap #(.setScale (BigDecimal/valueOf ^Double %)
                                        decimal_digits java.math.RoundingMode/UP)

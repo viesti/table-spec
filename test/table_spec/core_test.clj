@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [table-spec.core :as sut]
             [clojure.java.jdbc :as jdbc]
-            [clojure.spec :as s]
+            [clojure.spec.alpha :as s]
             [table-spec.fixture :refer [with-db]]))
 
 (def connection-uri "jdbc:postgresql://localhost:5433/postgres?user=postgres&password=secret")
