@@ -10,6 +10,10 @@
 (defmethod data-type Types/INTEGER [_]
   (s/spec int?))
 
+(defmethod data-type Types/SMALLINT [_]
+  (s/spec (s/and int?
+                 #(<= -32768 % +32767))))
+
 (defmethod data-type Types/TIMESTAMP [_]
   (s/spec #(instance? java.sql.Timestamp %)
           :gen (fn []
