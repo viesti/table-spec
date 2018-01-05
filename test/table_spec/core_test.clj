@@ -76,7 +76,7 @@
                               ;; On Postgres, column_size is 2147483647
                               :foo/text (s/spec (s/and string?
                                                        #(<= (.length %) column_size)))
-                              :foo/decimal (s/spec bigdec?)})]
+                              :foo/decimal (s/spec decimal?)})]
       (is (s/valid? (:foo/name specs)
                     (String. (byte-array 250) "UTF-8")))
       (is (not (s/valid? (:foo/name specs)
