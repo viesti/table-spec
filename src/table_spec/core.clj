@@ -13,6 +13,8 @@
 
 (defmulti data-type :data_type)
 
+;; Numbers
+
 (defmethod data-type Types/INTEGER [_]
   (s/spec int?))
 
@@ -21,6 +23,24 @@
 
 (defmethod data-type Types/BIGINT [_]
   (s/spec (s/int-in -9223372036854775808 9223372036854775807)))
+
+(defmethod data-type Types/DOUBLE [_]
+  (s/spec double?))
+
+(defmethod data-type Types/FLOAT [_]
+  (s/spec double?))
+
+(defmethod data-type Types/REAL [_]
+  (s/spec double?))
+
+(defmethod data-type Types/NUMERIC [{:keys [decimal_digits]}]
+  (s/spec decimal?
+          :gen (fn []
+                 (gen/fmap #(.setScale (BigDecimal/valueOf ^Double %)
+                                       decimal_digits java.math.RoundingMode/UP)
+                           (gen/double* {:infinite? false :NaN? false})))))
+
+;; Data and time
 
 (defmethod data-type Types/TIMESTAMP [_]
   (s/get-spec ::timestamp))
@@ -34,34 +54,22 @@
                  (gen/fmap #(java.sql.Date. ^Long %)
                            (gen/large-integer)))))
 
+;; Strings
+
 (defmethod data-type Types/VARCHAR [{:keys [column_size]}]
   (s/spec (s/and string?
                  #(<= (.length %) column_size))))
+
+(defmethod data-type Types/CHAR [_]
+  (s/spec char?))
+
+;; Other
 
 (defmethod data-type Types/BIT [_]
   (s/spec boolean?))
 
 (defmethod data-type Types/BOOLEAN [_]
   (s/spec boolean?))
-
-(defmethod data-type Types/DOUBLE [_]
-  (s/spec double?))
-
-(defmethod data-type Types/FLOAT [_]
-  (s/spec double?))
-
-(defmethod data-type Types/REAL [_]
-  (s/spec double?))
-
-(defmethod data-type Types/CHAR [_]
-  (s/spec char?))
-
-(defmethod data-type Types/NUMERIC [{:keys [decimal_digits]}]
-  (s/spec decimal?
-          :gen (fn []
-                 (gen/fmap #(.setScale (BigDecimal/valueOf ^Double %)
-                                       decimal_digits java.math.RoundingMode/UP)
-                           (gen/double* {:infinite? false :NaN? false})))))
 
 (defmethod data-type :default [m]
   (throw (Exception. (str "Undefined data type: " (:data_type m)))))
