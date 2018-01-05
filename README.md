@@ -36,6 +36,17 @@ user> (s/exercise :lol/id)
 ([-1 -1] [-1 -1] [1 1] [0 0] [-1 -1] [0 0] [-2 -2] [-1 -1] [-1 -1] [-8 -8])
 ```
 
+# Changelog
+
+### 0.1.1
+
+* Bump to Clojure 1.9.0
+* Support smallint, bigint, date, timestamp_with_timezone
+
+### 0.1.0
+
+* Initial release
+
 ## License
 
 Copyright © 2018 Kimmo Koskinen
