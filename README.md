@@ -15,6 +15,8 @@ CREATE TABLE
 :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
                [viesti/table-spec "0.1.0"]
                [org.postgresql/postgresql "9.4.1212"]]
+; For generating test data
+:profiles {:dev {:dependencies [[org.clojure/test.check "0.9.0" :scope "test"]]}}
 ...
 
 
