@@ -1,6 +1,6 @@
 # table-spec
 
-[![CircleCI](https://circleci.com/gh/viesti/table-spec/tree/master.svg?style=svg)](https://circleci.com/gh/viesti/table-spec/tree/master)
+[![CircleCI](https://circleci.com/gh/viesti/table-spec/tree/master.svg?style=svg)](https://circleci.com/gh/viesti/table-spec/tree/master) [![Clojars Project](https://img.shields.io/clojars/v/viesti/table-spec.svg)](https://clojars.org/viesti/table-spec)
 
 Specs ([clojure.spec](https://clojure.org/about/spec)) from SQL database schema for data generation and validation.
 
