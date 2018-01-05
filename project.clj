@@ -1,4 +1,4 @@
-(defproject viesti/table-spec "0.1.1-SNAPSHOT"
+(defproject viesti/table-spec "0.1.1"
   :description "clojure.spec from SQL schema"
   :url "http://github.com/viesti/table-spec"
   :license {:name "Eclipse Public License"
