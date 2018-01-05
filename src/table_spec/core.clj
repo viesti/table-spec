@@ -5,19 +5,33 @@
             [clojure.spec.gen.alpha :as gen])
   (:import [java.sql Types]))
 
+(s/def ::timestamp
+  (s/spec #(instance? java.sql.Timestamp %)
+          :gen (fn []
+                 (gen/fmap #(java.sql.Timestamp. ^Long %)
+                           (gen/large-integer)))))
+
 (defmulti data-type :data_type)
 
 (defmethod data-type Types/INTEGER [_]
   (s/spec int?))
 
 (defmethod data-type Types/SMALLINT [_]
-  (s/spec (s/and int?
-                 #(<= -32768 % +32767))))
+  (s/spec (s/int-in -32768 32767)))
+
+(defmethod data-type Types/BIGINT [_]
+  (s/spec (s/int-in -9223372036854775808 9223372036854775807)))
 
 (defmethod data-type Types/TIMESTAMP [_]
-  (s/spec #(instance? java.sql.Timestamp %)
+  (s/get-spec ::timestamp))
+
+(defmethod data-type Types/TIMESTAMP_WITH_TIMEZONE [_]
+  (s/get-spec ::timestamp))
+
+(defmethod data-type Types/DATE [_]
+  (s/spec #(instance? java.sql.Date %)
           :gen (fn []
-                 (gen/fmap #(java.sql.Timestamp. ^Long %)
+                 (gen/fmap #(java.sql.Date. ^Long %)
                            (gen/large-integer)))))
 
 (defmethod data-type Types/VARCHAR [{:keys [column_size]}]
