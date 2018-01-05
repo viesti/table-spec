@@ -1,5 +1,7 @@
 # table-spec
 
+[![CircleCI](https://circleci.com/gh/viesti/table-spec/tree/master.svg?style=svg)](https://circleci.com/gh/viesti/table-spec/tree/master)
+
 Specs ([clojure.spec](https://clojure.org/about/spec)) from SQL database schema for data generation and validation.
 
 ## Usage
