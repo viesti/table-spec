@@ -5,12 +5,6 @@
             [clojure.spec.gen.alpha :as gen])
   (:import [java.sql Types]))
 
-(s/def ::timestamp
-  (s/spec #(instance? java.sql.Timestamp %)
-          :gen (fn []
-                 (gen/fmap #(java.sql.Timestamp. ^Long %)
-                           (gen/large-integer)))))
-
 (defmulti data-type :data_type)
 
 (defn unknown-data-type-ex [{:keys [data_type] :as m}]
@@ -44,6 +38,12 @@
                            (gen/double* {:infinite? false :NaN? false})))))
 
 ;; Data and time
+
+(s/def ::timestamp
+  (s/spec #(instance? java.sql.Timestamp %)
+          :gen (fn []
+                 (gen/fmap #(java.sql.Timestamp. ^Long %)
+                           (gen/large-integer)))))
 
 (defmethod data-type Types/TIMESTAMP [_]
   (s/get-spec ::timestamp))
