@@ -60,7 +60,8 @@
                                        real real,
                                        char char,
                                        text text,
-                                       decimal decimal(6, 3))"]
+                                       decimal decimal(6, 3),
+                                       unique_id uuid)"]
                :down ["drop table foo"]
                :connection-uri connection-uri}
     (let [column_size 250
@@ -76,7 +77,8 @@
                               ;; On Postgres, column_size is 2147483647
                               :foo/text (s/spec (s/and string?
                                                        #(<= (.length %) column_size)))
-                              :foo/decimal (s/spec decimal?)})]
+                              :foo/decimal (s/spec decimal?)
+                              :foo/unique_id (s/spec uuid?)})]
       (is (s/valid? (:foo/name specs)
                     (String. (byte-array 250) "UTF-8")))
       (is (not (s/valid? (:foo/name specs)

@@ -13,6 +13,9 @@
 
 (defmulti data-type :data_type)
 
+(defn unknown-data-type-ex [{:keys [data_type] :as m}]
+  (ex-info (str "Undefined data type: " data_type) m))
+
 ;; Numbers
 
 (defmethod data-type Types/INTEGER [_]
@@ -71,8 +74,15 @@
 (defmethod data-type Types/BOOLEAN [_]
   (s/spec boolean?))
 
+(defmethod data-type Types/OTHER [{:keys [type_name] :as m}]
+  (case type_name
+    "uuid" (s/spec uuid?)
+    (throw (unknown-data-type-ex m))))
+
 (defmethod data-type :default [m]
-  (throw (Exception. (str "Undefined data type: " (:data_type m)))))
+  (throw (unknown-data-type-ex m)))
+
+;; End data type defs
 
 (defn table-meta [md schema]
   (-> md
